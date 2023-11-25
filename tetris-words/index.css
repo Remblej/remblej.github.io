@@ -1,0 +1,80 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.board {
+    background-color: #222;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    background-color: #171717;
+    font-size: 2em;
+    text-align: center;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+
+.cell-i {
+    background-color: #264653;
+    color: #6DD66E;
+    border: 1px solid #6DD66E;
+}
+.cell-o {
+    background-color: #1c5bba;
+    color: #90e0ef;
+    border: 1px solid #90e0ef;
+}
+.cell-t {
+    background-color: #350571;
+    color: #d8c1eb;
+    border: 1px solid #d8c1eb;
+}
+.cell-l {
+    background-color: #611618;
+    color: #ffa3a3;
+    border: 1px solid #ffa3a3;
+}
+.cell-s {
+    background-color: #4f281c;
+    color: #ede0d4;
+    border: 1px solid #ede0d4;
+}
+
+.cell-j {
+    background-color: #dbb42c;
+    color: #faf9e0;
+    border: 1px solid #f9f8e0;
+}
+
+.cell-z {
+    background-color: #f4762d;
+    color: #fae1ca;
+    border: 1px solid #fae1ca;
+}
+
+.cell-matched {
+    background-color: #eee;
+    color: #C34A36;
+    border: 1px solid #C34A36;
+}
