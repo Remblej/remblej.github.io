@@ -94,8 +94,8 @@ overflow-x: hidden;
     }
     
     .slot-container {
-      width: 180px;
-      height: 180px;
+      width: 260px;
+      height: 260px;
       margin: 0 auto 30px;
       background: linear-gradient(145deg, #2a2520, #1a1815);
       border: 3px solid #c9a227;
@@ -136,8 +136,8 @@ overflow-x: hidden;
     }
     
     .slot-item {
-      width: 180px;
-      height: 180px;
+      width: 260px;
+      height: 260px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -146,8 +146,8 @@ overflow-x: hidden;
     }
     
     .slot-item img {
-      max-width: 140px;
-      max-height: 140px;
+      width: 210px;
+      height: 210px;
       object-fit: contain;
     }
     
@@ -165,7 +165,8 @@ overflow-x: hidden;
     .spin-button {
       font-family: 'Cinzel', serif;
       font-size: 1em;
-      padding: 15px 40px;
+      padding: 15px 0;
+      width: 180px;
       background: linear-gradient(145deg, #c9a227, #8b6914);
       border: none;
       border-radius: 8px;
@@ -183,9 +184,7 @@ overflow-x: hidden;
     }
     
     .spin-button:disabled {
-      opacity: 0.5;
       cursor: not-allowed;
-      animation: none;
     }
     
     @keyframes btnGlow {
@@ -199,7 +198,7 @@ overflow-x: hidden;
     }
     
     .slot-container.legendary {
-      animation: legendaryGlow 1.5s ease-in-out 3;
+      animation: legendaryGlow 1.5s ease-in-out infinite;
       border-color: #ff9500;
       opacity: 1;
     }
@@ -372,18 +371,18 @@ overflow-x: hidden;
       }
       
       .slot-container {
-        width: 140px;
-        height: 140px;
+        width: 75vw;
+        height: 75vw;
       }
-      
+
       .slot-item {
-        width: 140px;
-        height: 140px;
+        width: 75vw;
+        height: 75vw;
       }
-      
+
       .slot-item img {
-        max-width: 100px;
-        max-height: 100px;
+        width: 60vw;
+        height: 60vw;
       }
       
       .spin-button {
@@ -473,12 +472,12 @@ overflow-x: hidden;
     };
     const box = "images/League-of-Legends-Hextech-Crafting.webp"
     const fakeGifts = [
-      { src: 'images/toilet-paper.jpg', rarity: 'common' },
+      { src: 'images/toilet-paper.jpg', rarity: 'epic' },
       { src: 'images/socks.jpg', rarity: 'common' },
       { src: 'images/toothbrush.jpg', rarity: 'rare' },
       { src: 'images/warka.jpg', rarity: 'epic' },
       { src: 'images/masc.jpg', rarity: 'rare' },
-      { src: 'images/cegla.jpg', rarity: 'rare' },
+      { src: 'images/cegla.jpg', rarity: 'common' },
       { src: 'images/przepychaczka.jpg', rarity: 'common' }
     ];
     const finalGift = { src: 'images/expedition33-icon.png', rarity: 'legendary' };
@@ -505,6 +504,7 @@ overflow-x: hidden;
     function spin() {
       if (isSpinning) return;
       isSpinning = true;
+      spinButton.style.opacity = '0.5';
       spinButton.disabled = true;
       spinButton.textContent = 'Losuję...';
       
@@ -513,6 +513,9 @@ overflow-x: hidden;
       
       // Shuffle and repeat to fill spins
       const spinSequence = [
+        ...[...fakeGifts].sort(() => Math.random() - 0.5),
+        ...[...fakeGifts].sort(() => Math.random() - 0.5),
+        ...[...fakeGifts].sort(() => Math.random() - 0.5),
         ...[...fakeGifts].sort(() => Math.random() - 0.5),
         ...[...fakeGifts].sort(() => Math.random() - 0.5)
       ];
@@ -527,13 +530,14 @@ overflow-x: hidden;
         spins++;
         
         if (spins < totalSpins) {
-          currentDelay += spins * spins * 1.5;
+          const t = spins / totalSpins;
+          currentDelay = 60 + Math.pow(t, 3) * 900;
           setTimeout(doSpin, currentDelay);
         } else {
           setTimeout(revealGift, 800);
         }
       }
-      
+
       doSpin();
     }
     
@@ -542,11 +546,9 @@ overflow-x: hidden;
       slotWindow.innerHTML = `<div class="slot-item reveal-item"><img src="${finalGift.src}" alt="gift"></div>`;
       slotContainer.classList.add('legendary');
       createConfetti();
-      
-      setTimeout(() => {
-        preReveal.style.display = 'none';
-        postReveal.classList.add('visible');
-      }, 3500);
+      spinButton.style.opacity = '1';
+      spinButton.textContent = 'Odbierz';
+      spinButton.disabled = false;
     }
     
     // Preload all images
@@ -556,7 +558,14 @@ overflow-x: hidden;
       img.src = src;
     });
     
-    spinButton.addEventListener('click', spin);
+    spinButton.addEventListener('click', () => {
+      if (spinButton.textContent === 'Odbierz') {
+        preReveal.style.display = 'none';
+        postReveal.classList.add('visible');
+      } else {
+        spin();
+      }
+    });
     
     // Create background particles
     const particles = document.getElementById('particles');
