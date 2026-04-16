@@ -525,7 +525,7 @@ overflow-x: hidden;
         spins++;
         
         if (spins < totalSpins) {
-          currentDelay += spins * spins * 2;
+          currentDelay += spins * spins * 1.5;
           setTimeout(doSpin, currentDelay);
         } else {
           setTimeout(revealGift, 800);
